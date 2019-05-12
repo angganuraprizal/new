@@ -42,7 +42,7 @@
 								</li>
 								<li>
 									<span class="ion-pricetag"></span>
-									<a href="#" style="color: black;">{{ $artikels->kategori->nama }}</a>
+									<a href="{{ route('filter', $artikels->kategori->slug) }}" style="color: black;">{{ $artikels->kategori->nama }}</a>
 								</li>
 								<!-- <li>
 									<span class="ion-chatbox"></span>
@@ -168,21 +168,21 @@
 					</div> -->
 				</div>
 				<div class="col-md-4">
-					<!-- <div class="widget-sidebar sidebar-search">
+					<div class="widget-sidebar sidebar-search">
 						<h5 class="sidebar-title">Search</h5>
 						<div class="sidebar-content">
-							<form>
+							<form action="/blog/search" method="GET" role="search">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Search for..." aria-label="Search for...">
+									<input type="text" class="form-control" placeholder="Search for..." name="cari" value="{{ old('cari') }}" aria-label="Search for...">
 									<span class="input-group-btn">
-									<button class="btn btn-secondary btn-search" type="button">
+									<button class="btn btn-secondary btn-search" type="submit">
 									<span class="ion-android-search"></span>
 									</button>
 									</span>
 								</div>
 							</form>
 						</div>
-					</div> -->
+					</div>
 					<div class="widget-sidebar">
 						<h5 class="sidebar-title">Recent Post</h5>
 						<div class="sidebar-content">
@@ -221,24 +221,11 @@
 						<h5 class="sidebar-title">Tags</h5>
 						<div class="sidebar-content">
 							<ul>
+								@foreach($kategoris as $data)
 								<li>
-									<a href="#">Web.</a>
+									<a href="{{ route('filter', $data->slug) }}">{{ $data->nama }}</a>
 								</li>
-								<li>
-									<a href="#">Design.</a>
-								</li>
-								<li>
-									<a href="#">Travel.</a>
-								</li>
-								<li>
-									<a href="#">Photoshop</a>
-								</li>
-								<li>
-									<a href="#">Corel Draw</a>
-								</li>
-								<li>
-									<a href="#">JavaScript</a>
-								</li>
+								@endforeach
 							</ul>
 						</div>
 					</div>

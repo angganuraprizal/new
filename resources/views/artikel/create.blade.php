@@ -11,6 +11,8 @@
 					<form action="{{route('artikel.store')}}" method="POST" enctype="multipart/form-data" data-toggle="validator" role="form">
 						{{csrf_field()}}
 
+						<input type="hidden" name="user_id" class="form-control" value="{{ auth::user()->id }}">
+
 						<div class="form-group {{ $errors->has('kategori_id') ? ' has-error' : '' }}">
 							<label class="control-label mb-10">Kategori</label>
 							<select name="kategori_id" class="form-control">

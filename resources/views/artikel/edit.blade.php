@@ -12,6 +12,8 @@
 						<input name="_method" type="hidden" value="PATCH">
 						{{csrf_field()}}
 
+						<input type="hidden" name="user_id" class="form-control" value="{{ auth::user()->id }}" required>
+
 						<div class="form-group {{ $errors->has('kategori_id') ? ' has-error' : '' }}">
 							<label class="control-label mb-10">Kategori</label>
 							<select name="kategori_id" class="form-control">

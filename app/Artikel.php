@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Artikel extends Model
 {
-    protected $fillable = ['kategori_id', 'judul', 'isi'];
+    protected $fillable = ['kategori_id', 'user_id', 'judul', 'isi'];
     public $timestamp = true;
 
     public function kategori(){

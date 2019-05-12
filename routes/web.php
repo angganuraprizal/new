@@ -26,3 +26,5 @@ Route::get('/blog', 'FrontendController@blog');
 Route::get('/blog/{slug}', 'FrontendController@detail')->name('detail');
 
 Route::get('/blog/kategori/{kategori}', 'FrontendController@artikelkategori')->name('filter');
+
+Route::get('/blog/search', 'FrontendController@cari')->name('cari');

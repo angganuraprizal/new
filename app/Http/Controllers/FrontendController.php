@@ -24,21 +24,33 @@ class FrontendController extends Controller
         return view('blog', compact('artikels', 'kategoris', 'blogs'));
     }
 
-    public function detail($slug)
-    {
-        $artikels = Artikel::where('slug', $slug)->first();
-        $blogs = Artikel::orderBy('created_at', 'desc')->take(4)->get();
-        // $previous = Artikel::where('id', '<', $artikels->slug)->orderBy('id', 'desc')->first();
-        // $next = Artikel::where('id', '>', $artikels->slug)->orderBy('id')->first();
-    
-        return view('singleblog', compact('artikels', 'blogs'));
-    }
-
     public function artikelkategori(Kategori $kategori)
     {
         $artikels = $kategori->Artikel()->latest()->paginate(6);
         $blogs = Artikel::orderBy('created_at', 'desc')->take(4)->get();
         $kategoris = Kategori::all();
         return view('blog', compact('artikels', 'blogs', 'kategoris'));
+    }
+
+    public function detail($slug)
+    {
+        $artikels = Artikel::where('slug', $slug)->first();
+        $blogs = Artikel::orderBy('created_at', 'desc')->take(4)->get();
+        $kategoris = Kategori::all();
+        // $previous = Artikel::where('id', '<', $artikels->slug)->orderBy('id', 'desc')->first();
+        // $next = Artikel::where('id', '>', $artikels->slug)->orderBy('id')->first();
+    
+        return view('singleblog', compact('artikels', 'blogs', 'kategoris'));
+    }
+
+    public function cari(Request $request, $slug)
+    {
+        $cari = $request->cari;
+        $artikels = Artikel::where('slug', $slug)->first();
+        $blogs = Artikel::orderBy('created_at', 'desc')->take(4)->get();
+        $kategoris = Kategori::all();
+        $artikel = Artikel::where('judul', 'like', "%" . $cari . "%")->paginate();
+
+        return view('blog', compact('artikel', 'blogs', 'kategoris','artikels'));
     }
 }

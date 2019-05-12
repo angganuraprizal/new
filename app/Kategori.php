@@ -37,4 +37,9 @@ class Kategori extends Model
             }
         });
     }
+
+    public function getRouteKeyName()
+	{
+		return 'slug';
+	}
 }

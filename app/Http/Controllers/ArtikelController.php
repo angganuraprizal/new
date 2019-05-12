@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Session;
+use App\User;
 use App\Artikel;
 use App\Kategori;
 use Illuminate\Http\Request;
@@ -41,6 +42,7 @@ class ArtikelController extends Controller
     {
         $this->validate($request,[
             'kategori_id' => 'required',
+            'user_id' => 'required',
             'judul' => 'required',
             'slug' => '',
             'foto' => 'required',
@@ -50,7 +52,8 @@ class ArtikelController extends Controller
         $artikels = new Artikel;
         $artikels->judul = $request->judul;
         $artikels->kategori_id = $request->kategori_id;
-        $artikels->slug = str_slug($request->judul,'-');
+        $artikels->user_id = $request->user_id;
+        $artikels->slug = str_slug($request->judul,'-').'-'.str_random(2);
         $artikels->isi = $request->isi;
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
@@ -101,13 +104,15 @@ class ArtikelController extends Controller
         $this->validate($request,[
             'judul' => 'required|max:255',
             'kategori_id' => 'required|',
+            'user_id' => 'required',
             'slug' => '',
             'isi' => 'required'
         ]);
         $artikels = Artikel::findOrFail($id);
         $artikels->judul = $request->judul;
-        $artikels->slug = str_slug($request->judul,'-');
+        $artikels->slug = str_slug($request->judul,'-').'-'.str_random(2);
         $artikels->kategori_id = $request->kategori_id;
+        $artikels->user_id = $request->user_id;
         $artikels->isi = $request->isi;
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
