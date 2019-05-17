@@ -19,6 +19,9 @@ class CreateArtikelsTable extends Migration
             $table->string('slug');
             $table->string('foto');
             $table->text('isi');
+            $table->boolean('status');
+            $table->string('statusprivate');
+            $table->integer('visit_count');
             $table->unsignedInteger('kategori_id');
             $table->foreign('kategori_id')->references('id')->on('kategoris')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->unsignedInteger('user_id');

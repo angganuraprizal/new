@@ -145,8 +145,18 @@
                                     {{ __('Login') }}
                                 </button>
                             </div>
-                        </div>
+						</div>
                     </form>
+					<div class="form-group">
+						<div class="col-md-10">
+							<a href="{{ url('auth/google') }}"><button class="btn btn-danger"><i class="fa fa-google">&nbsp;</i>Login with Google</button></a>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-10">
+							<a href="{{ url('auth/facebook') }}"><button class="btn btn-primary"><i class="fa fa-facebook">&nbsp;</i>Login with Facebook</button></a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

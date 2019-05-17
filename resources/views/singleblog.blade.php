@@ -38,16 +38,20 @@
 							<ul>
 								<li>
 									<span class="ion-ios-person"></span>
-									<a href="#" style="color: black;">{{ $artikels->user->name }}</a>
+									<span style="color: black;">{{ $artikels->user->name }}</span>
 								</li>
 								<li>
 									<span class="ion-pricetag"></span>
 									<a href="{{ route('filter', $artikels->kategori->slug) }}" style="color: black;">{{ $artikels->kategori->nama }}</a>
 								</li>
-								<!-- <li>
+								<li>
 									<span class="ion-chatbox"></span>
-									<a href="#">14</a>
-								</li> -->
+									<a href="/blog/{{ $artikels->slug}}#disqus_thread"></a>
+								</li>
+								<li>
+									<span class="ion-eye"></span>
+									<span>{{ $artikels->visit_count}}</span>
+								</li>
 							</ul>
 						</div>
 						<div class="article-content" style="text-align: justify;">
@@ -61,10 +65,34 @@
 								nibh pulvinar a. Cras ultricies ligula sed magna dictum porta. Lorem ipsum dolor sit amet,
 								consectetur adipiscing elit. Donec sollicitudin molestie malesuada.
 							</p> -->
+							<h4>Share On</h4>
+							<div class="sharethis-inline-share-buttons"></div>
 						</div>
 					</div>
-					<!-- <div class="box-comments">
-						<div class="title-box-2">
+
+					<div id="comment" class="box-comments">
+						<div id="disqus_thread"></div>
+							<script>
+
+							/**
+							*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+							*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+							/*
+							var disqus_config = function () {
+							this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+							this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+							};
+							*/
+							(function() { // DON'T EDIT BELOW THIS LINE
+								var d = document, s = d.createElement('script');
+								s.src = 'https://news-roevedaike.disqus.com/embed.js';
+								s.setAttribute('data-timestamp', +new Date());
+								(d.head || d.body).appendChild(s);
+							})();
+						</script>
+						<script id="dsq-count-scr" src="//news-roevedaike.disqus.com/count.js" async></script>
+						<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+						<!-- <div class="title-box-2">
 							<h4 class="title-comments title-left">Comments (34)</h4>
 						</div>
 						<ul class="list-comments">
@@ -129,9 +157,9 @@
 									<a href="3">Reply</a>
 								</div>
 							</li>
-						</ul>
+						</ul> -->
 					</div>
-					<div class="form-comments">
+					<!-- <div class="form-comments">
 						<div class="title-box-2">
 							<h3 class="title-left">
 								Leave a Reply
@@ -173,7 +201,7 @@
 						<div class="sidebar-content">
 							<form action="/blog/search" method="GET" role="search">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Search for..." name="cari" value="{{ old('cari') }}" aria-label="Search for...">
+									<input type="text" class="form-control" placeholder="Search for..." name="cari" aria-label="Search for...">
 									<span class="input-group-btn">
 									<button class="btn btn-secondary btn-search" type="submit">
 									<span class="ion-android-search"></span>
@@ -218,13 +246,17 @@
 						</div>
 					</div> -->
 					<div class="widget-sidebar widget-tags">
-						<h5 class="sidebar-title">Tags</h5>
+						<h5 class="sidebar-title">Kategori</h5>
 						<div class="sidebar-content">
 							<ul>
 								@foreach($kategoris as $data)
-								<li>
-									<a href="{{ route('filter', $data->slug) }}">{{ $data->nama }}</a>
-								</li>
+								<div class="row">
+									<div class="col-md-12">
+										<li>
+											<a href="{{ route('filter', $data->slug) }}">{{ $data->nama }}&nbsp;<span>({{ $data->Artikel->count() }})</span></a>
+										</li>
+									</div>
+								</div>
 								@endforeach
 							</ul>
 						</div>
@@ -234,5 +266,11 @@
 		</div>
 	</section>
 	<!--/ Section Blog-Single End /-->
+
+	<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5cda76bf0ab8d400129d3332&product='inline-share-buttons' async='async'></script>
+	<script
+		src="https://code.jquery.com/jquery-3.1.1.min.js"
+		integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+		crossorigin="anonymous"></script>
 
 @endsection

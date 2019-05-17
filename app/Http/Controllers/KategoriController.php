@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Session;
 use App\Kategori;
+// use Yajra\DataTables\Html\Builder;
+// use Yajra\DataTables\Datatables;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -13,11 +15,32 @@ class KategoriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() // Request $request, Builder $htmlBuilder
     {
+        // if ($request->ajax()) {
+        //     $kategoris = Kategori::select(['id', 'nama']);
+        //     return Datatables::of($kategoris)->make(true);
+        // }
+        // $html = $htmlBuilder
+        //     ->addColumn(['data' => 'nama', 'nama'=>'nama', 'title'=>'Nama']);
+        // return view('kategori.index')->with(compact('html'));
+
         $kategoris = Kategori::all();
         return view('kategori.index',compact('kategoris'));
     }
+
+    // public function cari(Request $request)
+	// {
+    //     // menangkap data pencarian
+    //     $cari = $request->cari;
+        
+    //     // mengambil data dari table pegawai sesuai pencarian data
+    //     $kategoris = Kategori::where('nama','like',"%".$cari."%")->paginate();
+        
+    //     // mengirim data pegawai ke view index
+    //     return view('kategori.index', compact('kategoris'));
+ 
+	// }
 
     /**
      * Show the form for creating a new resource.

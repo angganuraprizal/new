@@ -17,14 +17,20 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function () {
+Route::group(['prefix'=>'admin', 'middleware'=>['auth', 'role:admin']], function () {
     Route::resource('kategori', 'KategoriController');
     Route::resource('artikel', 'ArtikelController');
+    Route::post('artikel/verify/{id}', 'ArtikelController@verify')->name('verify');
 });
+Route::get('/admin/kategori/search','KategoriController@cari');
 
 Route::get('/blog', 'FrontendController@blog');
-Route::get('/blog/{slug}', 'FrontendController@detail')->name('detail');
 
 Route::get('/blog/kategori/{kategori}', 'FrontendController@artikelkategori')->name('filter');
 
 Route::get('/blog/search', 'FrontendController@cari')->name('cari');
+
+Route::get('/blog/{artikels}', 'FrontendController@detail')->name('detail');
+
+Route::get('/auth/{provider}', 'Auth\RegisterController@redirectToProvider');
+Route::get('/auth/{provider}/callback', 'Auth\RegisterController@handleProviderCallback');

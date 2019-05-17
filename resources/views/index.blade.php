@@ -476,9 +476,6 @@
 						<h3 class="title-a">
 							Blog
 						</h3>
-						<p class="subtitle-a">
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-						</p>
 						<div class="line-mf"></div>
 					</div>
 				</div>
@@ -507,7 +504,7 @@
 								<span class="author">{{ $data->user->name }}</span>
 							</div>
 							<div class="post-date">
-								<span class="ion-ios-clock-outline"></span> {{ $data->created_at->format('Y-m-d') }}
+								<span class="ion-ios-clock-outline"></span> {{ $data->created_at->format('M d, Y') }}
 							</div>
 						</div>
 					</div>

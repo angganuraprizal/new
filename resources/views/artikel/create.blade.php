@@ -30,7 +30,7 @@
 
 						<div class="form-group {{ $errors->has('judul') ? ' has-error' : '' }}">
 							<label class="control-label mb-10">Judul</label>
-							<input type="text" name="judul" class="form-control"  required>
+							<input type="text" name="judul" placeholder="Input judul" class="form-control"  required>
 							@if ($errors->has('judul'))
 							<span class="help-block">
 								<strong>{{ $errors->first('judul') }}</strong>
@@ -40,9 +40,8 @@
 
 						<div class="form-group {{ $errors->has('foto') ? ' has-error' : '' }}">
 							<label class="control-label mb-10">Foto</label>
-							<input type="file" name="foto" class="form-control" required>
+							<input type="url" name="foto" placeholder="Input url foto" class="form-control" required>
 							@if ($errors->has('foto'))
-								<img src="{{ asset('/img/artikel/'.$artikels->foto) }}" alt="">
 								<span class="help-block">
 									<strong>{{ $errors->first('foto') }}</strong>
 								</span>

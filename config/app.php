@@ -165,6 +165,8 @@ return [
         // Add News
         Laratrust\LaratrustServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
+        
 
         /*
          * Package Service Providers...
@@ -232,7 +234,8 @@ return [
 
         // Add News
         'Laratrust'   => Laratrust\LaratrustFacade::class,
-        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

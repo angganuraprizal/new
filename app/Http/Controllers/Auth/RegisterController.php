@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Socialite;
 use App\User;
+use App\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -64,9 +66,46 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'provider_id' => '',
+            'provider' => '',
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        $memberRole = Role::where('name', 'member')->first();
+        $user->attachRole($memberRole);
+        return $user;
+    }
+
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        try {
+            $socialUser = Socialite::driver($provider)->user();
+        } catch (\Exception $e) {
+            return redirect('/');
+        }
+        // check if we have logged provider
+        $socialProvider = User::where('provider_id', $socialUser->getId())->first();
+        if (!$socialProvider) {
+            // create a new user and provider
+            $user = User::create([
+                'provider_id' => $socialUser->getId(),
+                'provider' => $provider,
+                'name' => $socialUser->getName(),
+                'email' => $socialUser->getEmail(),
+            ]);
+            $memberRole = Role::where('name', 'member')->first();
+            $user->attachRole($memberRole);
+
+            auth()->login($user);
+            return redirect('/');
+        }
+        auth()->login($socialProvider);
+        return redirect('/');
     }
 }

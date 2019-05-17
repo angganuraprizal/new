@@ -39,11 +39,29 @@ class ArtikelSeeder extends Seeder
 
         // Membuat sample admin
         $admin = new User();
+        $admin->provider_id = '';
+        $admin->provider = '';
         $admin->name = 'Admin News';
-        $admin->email = 'admin@gmail.com';
-        $admin->password = bcrypt('rahasia');
+        $admin->email = 'admin@news.com';
+        $admin->password = bcrypt('newsnews');
         $admin->save();
         $admin->attachRole($adminRole);
+
+        // Membuat role admin
+        $memberRole = new Role();
+        $memberRole->name = "member";
+        $memberRole->display_name = "Member";
+        $memberRole->save();
+
+        // Membuat sample member
+        $member = new User();
+        $member->provider_id = '';
+        $member->provider = '';
+        $member->name = 'Member News';
+        $member->email = 'member@news.com';
+        $member->password = bcrypt('newsnews');
+        $member->save();
+        $member->attachRole($memberRole);
 
         // Artikel
         $artikel1 = Artikel::create([

@@ -18,7 +18,8 @@ class ArtikelController extends Controller
     public function index()
     {
         $artikels = Artikel::with('Kategori')->get();
-        return view('artikel.index',compact('artikels'));
+        $kategoris = Kategori::all();
+        return view('artikel.index',compact('artikels', 'kategoris'));
     }
 
     /**
@@ -49,19 +50,26 @@ class ArtikelController extends Controller
             'isi' => 'required'
         ]);
 
+        Session::flash("flash_notification", [
+            "level"=>"success",
+            "message"=>"Berhasil menyimpan <b>$request->judul</b>"
+        ]);
+
         $artikels = new Artikel;
         $artikels->judul = $request->judul;
         $artikels->kategori_id = $request->kategori_id;
         $artikels->user_id = $request->user_id;
         $artikels->slug = str_slug($request->judul,'-').'-'.str_random(2);
         $artikels->isi = $request->isi;
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $destinationPath = public_path().'/img/artikel/';
-            $filename = str_random(6).'_'.$file->getClientOriginalName();
-            $uploadsucces = $file->move($destinationPath, $filename);
-            $artikels->foto = $filename;
-        }
+        $artikels->foto = $request->foto;
+        $artikels->status = 0;
+        // if ($request->hasFile('foto')) {
+        //     $file = $request->file('foto');
+        //     $destinationPath = public_path().'/img/artikel/';
+        //     $filename = str_random(6).'_'.$file->getClientOriginalName();
+        //     $uploadsucces = $file->move($destinationPath, $filename);
+        //     $artikels->foto = $filename;
+        // }
         
         $artikels->save();
         return redirect()->route('artikel.index');
@@ -109,28 +117,42 @@ class ArtikelController extends Controller
             'isi' => 'required'
         ]);
         $artikels = Artikel::findOrFail($id);
+
+        Session::flash("flash_notification", [
+            "level"=>"success",
+            "message"=>"Berhasil mengubah <b>$artikels->judul</b>"
+        ]);
+
         $artikels->judul = $request->judul;
         $artikels->slug = str_slug($request->judul,'-').'-'.str_random(2);
         $artikels->kategori_id = $request->kategori_id;
         $artikels->user_id = $request->user_id;
         $artikels->isi = $request->isi;
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $destinationPath = public_path().'/img/artikel/';
-            $filename = str_random(6).'_'.$file->getClientOriginalName();
-            $uploadsucces = $file->move($destinationPath, $filename);
-            if ($artikels->foto){
-                $old_img = $artikels->foto;
-                $filepath = public_path() . DIRECTORY_SEPARATOR . '/img/artikel/'
-                . DIRECTORY_SEPARATOR . $artikels->foto;
-                try{
-                    file::delete($filepath);
-                } catch (FileNotFoundException $e) {
-
-                }
-            }
-            $artikels->foto = $filename;
+        $artikels->foto = $request->foto;
+        $artikels->visit_count = $request->visit_count;
+        $artikels->comment_count = $request->comment_count;
+        if ($artikels->status == 0) {
+            $artikels->status = 0;
+        } else {
+            $artikels->status = 1;
         }
+        // if ($request->hasFile('foto')) {
+        //     $file = $request->file('foto');
+        //     $destinationPath = public_path().'/img/artikel/';
+        //     $filename = str_random(6).'_'.$file->getClientOriginalName();
+        //     $uploadsucces = $file->move($destinationPath, $filename);
+        //     if ($artikels->foto){
+        //         $old_img = $artikels->foto;
+        //         $filepath = public_path() . DIRECTORY_SEPARATOR . '/img/artikel/'
+        //         . DIRECTORY_SEPARATOR . $artikels->foto;
+        //         try{
+        //             file::delete($filepath);
+        //         } catch (FileNotFoundException $e) {
+
+        //         }
+        //     }
+        //     $artikels->foto = $filename;
+        // }
         $artikels->save();
         return redirect()->route('artikel.index');
     }
@@ -145,6 +167,18 @@ class ArtikelController extends Controller
     {
         $artikels = Artikel::findOrFail($id);
         $artikels->delete();
+        return redirect()->route('artikel.index');
+    }
+
+    public function verify($id)
+    {
+        $artikels = Artikel::findOrFail($id);
+
+        if ($artikels->status === 0) {
+            $artikels->status = 1;
+        }
+        $artikels->save();
+
         return redirect()->route('artikel.index');
     }
 }
